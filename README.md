@@ -17,6 +17,8 @@ The site reads the default Studionet contract configured in [web/deployment.js](
 
 ## Try a campaign
 
+The [hosted website](https://sponsorscope.mohamedansaf222.chatgpt.site/) is owner-access only. The [Studionet explorer record](https://explorer-studio.genlayer.com/address/0x1fE381D641b05c151fceD9Bd546f8EC1a20F0379) and this repository are public. Wait for each write to finalize before submitting the next.
+
 1. Open the site and use **Find a campaign** to read a finalized record. The ledger shows the locked terms, canonical post URI, review attempts, and archived evidence. Use **Export audit record** to download the JSON.
 2. To write using Studio's built-in account, create a file from [contracts/sponsor_scope.py](contracts/sponsor_scope.py) in [GenLayer Studio](https://studio.genlayer.com/contracts), open **Run and Debug**, and deploy with **Normal (Full Consensus)**. For a demo, the same Studio wallet can fill both roles. For real campaigns, use the brand wallet to call `register` and set the creator's Studionet wallet and Bluesky DID.
 3. Publish the agreed disclosure and message on Bluesky after registering the campaign. From the creator wallet, call `submit` with the campaign ID and the 13-character key after `/post/` in the post link.
