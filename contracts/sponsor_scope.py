@@ -1,4 +1,4 @@
-# { "Depends": "py-genlayer:test" }
+# { "Depends": "py-genlayer:1jb45aa8ynh2a9c9xn3b7qqh8sm5q93hwfp7jqmwsfhh8jpz09h6" }
 import json
 import re
 from datetime import datetime
@@ -15,12 +15,14 @@ class SponsorScope(gl.Contract):
         pass
 
     @gl.public.write
-    def register(self, campaign_id: str, creator: Address, did: str, deadline: str,
+    def register(self, campaign_id: str, creator: str, did: str, deadline: str,
                  disclosure: str, message: str):
         if not re.fullmatch(r"[a-z0-9][a-z0-9-]{2,63}", campaign_id):
             raise ValueError("Use a 3-64 character campaign ID")
         if campaign_id in self.campaigns:
             raise ValueError("Campaign ID already registered")
+        if not re.fullmatch(r"0x[0-9a-fA-F]{40}", creator):
+            raise ValueError("Use a 20-byte creator wallet address")
         if not re.fullmatch(r"did:plc:[a-z2-7]{24}", did):
             raise ValueError("Use a Bluesky did:plc identity")
         if not re.fullmatch(r"#[A-Za-z][A-Za-z0-9_]{0,29}", disclosure):
@@ -32,7 +34,7 @@ class SponsorScope(gl.Contract):
         if _time(deadline) <= _time(gl.message_raw["datetime"]):
             raise ValueError("Deadline must be in the future")
         self.campaigns[campaign_id] = json.dumps({
-            "brand": str(gl.message.sender_address), "creator": str(creator),
+            "brand": str(gl.message.sender_address).lower(), "creator": creator.lower(),
             "did": did, "deadline": deadline, "disclosure": disclosure, "message": message,
             "registered_at": gl.message_raw["datetime"],
         })
@@ -42,7 +44,7 @@ class SponsorScope(gl.Contract):
         campaign = json.loads(self.get_campaign(campaign_id))
         if campaign is None:
             raise ValueError("Unknown campaign")
-        if str(gl.message.sender_address) != campaign["creator"]:
+        if str(gl.message.sender_address).lower() != campaign["creator"]:
             raise ValueError("Only the campaign creator can submit")
         if not re.fullmatch(r"[a-z0-9]{13}", post_key):
             raise ValueError("Use the 13-character Bluesky post key")
@@ -59,7 +61,7 @@ class SponsorScope(gl.Contract):
         campaign = json.loads(self.get_campaign(campaign_id))
         if campaign is None:
             raise ValueError("Unknown campaign")
-        if str(gl.message.sender_address) not in (campaign["brand"], campaign["creator"]):
+        if str(gl.message.sender_address).lower() not in (campaign["brand"], campaign["creator"]):
             raise ValueError("Only campaign participants can verify")
         record = json.loads(self.get_submission(campaign_id))
         if record is None:
