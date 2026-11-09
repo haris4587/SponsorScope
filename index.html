@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Review sponsored Bluesky deliverables against locked campaign terms on GenLayer.">
+<title>SponsorScope | Campaign verification</title>
+<link rel="stylesheet" href="./web/style.css">
+</head>
+<body>
+<header><div class="shell bar"><a class="brand" href="./"><span>◎</span> SponsorScope</a><div class="actions"><span class="network">● STUDIONET</span><button id="connect" type="button">Connect wallet</button></div></div></header>
+<main class="shell">
+<section class="hero"><p class="eyebrow">01 / CAMPAIGN VERIFICATION</p><h1>Give every sponsored<br> post a receipt.</h1><p>Lock a campaign brief, submit a public Bluesky post, and review the evidence GenLayer validators found.</p><a href="#lookup">Open campaign ledger ↓</a></section>
+<p class="notice" id="notice">Read public records without a wallet. Use the Studio built-in account in <a href="https://studio.genlayer.com/?import-contract=0x1fE381D641b05c151fceD9Bd546f8EC1a20F0379" target="_blank" rel="noopener">GenLayer Studio</a>, or connect a Studionet wallet to sign here.</p>
+<section class="ledger" id="lookup"><div><p class="eyebrow">02 / ON-CHAIN LEDGER</p><h2>Find a campaign</h2><a href="?campaign=sponsorscope-public-test#lookup">Open the historical public-post demo ↗</a></div>
+<form id="lookup-form"><label>Campaign ID<input name="campaign" required pattern="[a-z0-9][a-z0-9\-]{2,63}" placeholder="campaign-id"></label><button>Read finalized record</button></form>
+<div id="result" aria-live="polite"></div></section>
+<section class="grid" aria-label="Campaign actions">
+<form id="register"><p class="eyebrow">01 / BRAND</p><h2>Lock the brief</h2>
+<label>Campaign ID<input name="campaign" required pattern="[a-z0-9][a-z0-9\-]{2,63}"></label>
+<label>Creator wallet address<input name="creator" required pattern="0x[0-9a-fA-F]{40}"></label>
+<label>Creator Bluesky DID<input name="did" required placeholder="did:plc:…" pattern="did:plc:[a-z2-7]{24}"></label>
+<label>Deadline in your local time<input name="deadline" type="datetime-local" required></label>
+<label>Disclosure hashtag<input name="disclosure" value="#ad" required pattern="#[A-Za-z][A-Za-z0-9_]{0,29}"></label>
+<label>Required message<textarea name="message" maxlength="400" required placeholder="The post should say the product is refillable."></textarea></label>
+<button data-write>Register campaign</button></form>
+<form id="submit"><p class="eyebrow">02 / CREATOR</p><h2>Submit the post</h2>
+<label>Campaign ID<input name="campaign" required pattern="[a-z0-9][a-z0-9\-]{2,63}"></label>
+<label>Bluesky post key<input name="key" required pattern="[a-z0-9]{13}" placeholder="13 characters after /post/"></label>
+<p>The contract resolves the post using the Bluesky identity locked in the brief.</p>
+<button data-write>Submit evidence</button></form>
+<form id="verify"><p class="eyebrow">03 / PARTICIPANTS</p><h2>Request a review</h2>
+<label>Campaign ID<input name="campaign" required pattern="[a-z0-9][a-z0-9\-]{2,63}"></label>
+<p>Validators check the public post, disclosure, index time, and required messaging. Records support payment reviews and disputes.</p>
+<button data-write>Verify on GenLayer</button></form>
+</section>
+<section class="ledger" id="transactions"><p class="eyebrow">03 / TRANSACTION STATUS</p><h2>Track a transaction</h2>
+<form id="track"><label>Transaction hash<input name="hash" required pattern="0x[0-9a-fA-F]{64}"></label><button>Check receipt</button></form><p id="status" role="status" aria-live="polite"></p>
+</section>
+</main>
+<footer class="shell"><span>SponsorScope · Studionet</span><a href="https://github.com/haris4587/SponsorScope">Source and guide ↗</a></footer>
+<script type="module" src="./web/main.js"></script>
+</body></html>
